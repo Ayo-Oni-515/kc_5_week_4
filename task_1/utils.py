@@ -7,6 +7,7 @@ from student import Student
 
 
 def add_student() -> None:
+    """adds student record"""
     print()
     while True:
         try:
@@ -92,6 +93,7 @@ greater 100 entered!\n")
 
 
 def view_students() -> None:
+    """returns all student records."""
     output: str = """
 ------------------------------------------------------
 ===================== STUDENTS =======================
@@ -285,6 +287,7 @@ def save_to_json(data_to_save: dict, file_path: str = "./data.json") -> None:
 
 
 def save_and_exit() -> None:
+    """saves all changes and exit program"""
     print("\n\t>>> saving all changes...")
 
     try:
