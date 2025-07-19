@@ -29,7 +29,7 @@ class Student():
         for score in self.subjects.values():
             sum += score
         
-        return (sum / (len(self.subjects)))
+        return round((sum / (len(self.subjects))), 2)
 
     def evaluate_grade(self):
         """Assigns a remark to the performance of each student based on
