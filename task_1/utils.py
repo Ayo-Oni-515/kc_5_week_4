@@ -111,7 +111,9 @@ def save_and_exit() -> None:
     print("\n\t>>> saving all changes...")
 
     try:
-        # save_to_json(data_to_save=Library.store_to_json())
+        json_data = load_from_json()
+        Student.In_memory.update(**json_data)
+        save_to_json(data_to_save=Student.In_memory)
         time.sleep(1)
     except Exception:
         print("\n\t\tError: operation failed!")
