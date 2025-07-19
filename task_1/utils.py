@@ -52,7 +52,7 @@ def add_student() -> None:
         
         while True:
             try:
-                subject_name: str = (input(f"Enter {i+1}{pos[i+1]} \
+                subject_name: str = (input(f"\nEnter {i+1}{pos[i+1]} \
 subject's title: ")).lower()
 
                 if not subject_name.isalnum():
@@ -103,6 +103,10 @@ def view_students() -> None:
 
     all_data = Student.In_memory
 
+    if len(all_data) == 0:
+        print("\n\t>>> nothing to view...")
+        return
+
     for name in all_data:
         student_name: str = name
         average: float = all_data[name]["average"]
@@ -127,8 +131,112 @@ Subjects:\n{subjects}
 
 
 
-def update_student():
-    pass
+def update_student() -> None:
+    """update any student record"""
+    json_data = load_from_json()
+    Student.In_memory.update(**json_data)
+
+    all_data = Student.In_memory
+
+    if len(all_data) == 0:
+        print("\n\t>>> nothing to update...")
+        return
+
+    print()
+    while True:
+        try:
+            student_name: str = (
+                input("Enter the name of the student to update: ")).lower()
+            
+            if not student_name.isascii():
+                raise TypeError
+            elif student_name not in all_data:
+                raise NameError
+            else:
+                print("\n\t>>> student record exist")
+                break
+        except TypeError:
+            print("\n\t\tError: Invalid student name syntax!\n")
+        except NameError:
+            print("\n\t\tError: Student data doesn't exist!\n")
+            return
+
+    print()
+    while True:
+        try:
+            update_data: str = (
+                input("Enter the data to update (name or subjects): ")).lower()
+            
+            if not update_data.isascii():
+                raise TypeError
+            elif update_data not in ["name", "subjects"]:
+                raise NameError
+            break
+        except TypeError:
+            print("\n\t\tError: Invalid data name syntax!\n")
+        except NameError:
+            print(
+                "\n\t\tError: Entry can't be modified!\n")
+        
+    if update_data == "name":
+        print()
+        while True:
+            try:
+                new_name: str = (
+                    input("Enter student's new name: ")).lower()
+                
+                if not new_name.isascii():
+                    raise TypeError
+                elif new_name in all_data.keys():
+                    raise NameError
+                break
+            except TypeError:
+                print("\n\t\tError: Invalid student name syntax!\n")
+            except NameError:
+                print("\n\t\tError: same student name is present in memory, use another!\n")
+        
+        all_data[new_name] = all_data[student_name]
+        Student(name=new_name,
+                subjects=all_data[student_name]["subjects"])
+    
+    elif update_data == "subjects":
+        print()
+        while True:
+            try:
+                subject_name: str = (
+                    input("Enter subject to update: ")).lower()
+                
+                if not subject_name.isascii():
+                    raise TypeError
+                elif subject_name not in all_data[student_name]["subjects"]:
+                    raise NameError
+                break
+            except TypeError:
+                print("\n\t\tError: Invalid subject name syntax!\n")
+            except NameError:
+                print("\n\t\tError: Entry not present as a subject!\n")
+        
+        while True:
+            try:
+                subject_score: float = float(input("Enter new score: "))
+
+                if (
+                    subject_score <= 0
+                    or subject_score > 100
+                    or not subject_score.is_integer()
+                ):
+                    raise ValueError
+                break
+            except ValueError:
+                print(
+                    "\n\t\tError: Invalid score or score \
+greater 100 entered!\n")
+
+        all_data[student_name]["subjects"][subject_name] = subject_score
+        Student(name=student_name,
+                subjects=all_data[student_name]["subjects"])
+
+    save_to_json(data_to_save=all_data)
 
 
 def is_json_file(file_path: str = "./data.json") -> bool:
@@ -158,7 +266,7 @@ def load_from_json(file_path: str = "./data.json") -> dict:
         with open(file_path, "w") as file:
             # create and save an empty distionary to json file
             print(f"\n\t>>> creating {file.name[2:]}...")
-            save_to_json({}, file)
+            save_to_json({}, file_path)
     
     return retrieved_data
 
@@ -182,6 +290,9 @@ def save_and_exit() -> None:
     try:
         json_data = load_from_json()
         Student.In_memory.update(**json_data)
+        if len(Student.In_memory) == 0:
+            print("\n\t>>> nothing to save..")
+            raise
         save_to_json(data_to_save=Student.In_memory)
         time.sleep(1)
     except Exception:
