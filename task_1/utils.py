@@ -197,9 +197,7 @@ def update_student() -> None:
             except NameError:
                 print("\n\t\tError: same student name is present in memory, use another!\n")
         
-        all_data[new_name] = all_data[student_name]
-        Student(name=new_name,
-                subjects=all_data[student_name]["subjects"])
+        Student.In_memory[new_name] = Student.In_memory.pop(student_name)
     
     elif update_data == "subjects":
         print()
@@ -234,11 +232,9 @@ def update_student() -> None:
                     "\n\t\tError: Invalid score or score \
 greater 100 entered!\n")
 
-        all_data[student_name]["subjects"][subject_name] = subject_score
-        Student(name=student_name,
-                subjects=all_data[student_name]["subjects"])
-
-    save_to_json(data_to_save=all_data)
+        Student.In_memory[student_name]["subjects"][subject_name] = subject_score
+        
+    save_to_json(data_to_save=Student.In_memory)
 
 
 def is_json_file(file_path: str = "./data.json") -> bool:
