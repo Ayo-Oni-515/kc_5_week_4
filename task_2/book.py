@@ -22,4 +22,4 @@ class Book():
             }
 
         # In memory storage
-        self.In_memory.append(**self.json)
+        self.In_memory.update(**self.json)
