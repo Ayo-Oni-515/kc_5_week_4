@@ -99,12 +99,49 @@ def update_student():
     pass
 
 
-def laod_from_json():
-    pass
+def is_json_file(file_path: str = "./data.json") -> bool:
+    """checks for the existence of the josn file"""
+    return os.path.exists(file_path)
 
 
-def save_to_json():
-    pass
+def load_from_json(file_path: str = "./data.json") -> dict:
+    """loads data from an existing json file"""
+    retrieved_data: dict = {}
+
+    if is_json_file(file_path):
+        with open(file_path, "r") as file:
+            # read data from an existing json file
+
+            print(f"\n\t>>> loading data from {file.name[2:]}...")
+            time.sleep(1)
+
+            try:
+                # parse existing data in json file
+                retrieved_data = json.load(file)
+            except Exception:
+                # returns an empty dictionary if file is empty
+                retrieved_data = {}
+            
+    else:
+        with open(file_path, "w") as file:
+            # create and save an empty distionary to json file
+            print(f"\n\t>>> creating {file.name[2:]}...")
+            save_to_json({}, file)
+    
+    return retrieved_data
+
+
+def save_to_json(data_to_save: dict, file_path: str = "./data.json") -> None:
+    """saves data to json file"""
+    existing_data = load_from_json(file_path)
+    existing_data.update(data_to_save)
+
+    with open(file_path, "w") as data_file:
+        # save to json file
+        print(f"\n\t>>> saving to {data_file.name[2:]}...")
+
+        time.sleep(1)
+        json.dump(existing_data, data_file, indent=4)
 
 
 def save_and_exit() -> None:
