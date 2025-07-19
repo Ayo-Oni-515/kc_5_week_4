@@ -13,21 +13,20 @@ def add_student() -> None:
             student_name: str = (
                 input("Enter student's name: ")).lower()
             
-            # check this
             if not student_name.isascii():
                 raise TypeError
-            # elif student_name in load_from_json().keys():
-            #     raise NameError
+            elif student_name in load_from_json().keys():
+                raise NameError
             elif student_name in Student.In_memory:
                 raise ValueError
             break
         except TypeError:
-            print("\n\t\tError: Invalid student name syntax!")
+            print("\n\t\tError: Invalid student name syntax!\n")
         except NameError:
             print(
-                "\n\t\tError: Student record exists in json file!")
+                "\n\t\tError: Student record exists in json file!\n")
         except ValueError:
-            print("\n\t\tError: Student has already been added!")
+            print("\n\t\tError: Student has already been added!\n")
     
     while True:
         try:
@@ -41,9 +40,9 @@ def add_student() -> None:
                 raise ValueError
             break
         except TypeError:
-            print("\n\t\tError: Invalid subject count syntax!")
+            print("\n\t\tError: Invalid subject count syntax!\n")
         except ValueError:
-            print("\n\t\tError: Subject threshold too high")
+            print("\n\t\tError: Subject threshold too high!\n")
     
     subjects: dict = {}
         
@@ -87,7 +86,6 @@ greater 100 entered!\n")
         print("\n\t\tError: Student's data creation failed!")
         return
 
-    
     print()
     print(f"{student_name.title()}'s data stored successfully!")
     print()
@@ -117,7 +115,6 @@ def save_and_exit() -> None:
         time.sleep(1)
     except Exception:
         print("\n\t\tError: operation failed!")
-
 
     print("\n\t>>> exiting student report card app..")
     time.sleep(1)
