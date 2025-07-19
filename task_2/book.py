@@ -14,11 +14,12 @@ class Book():
 
         # json serializable representation
         self.json = {
-            "title": self.title,
-            "author": self.author,
-            "price": self.price,
-            "stock": self.stock
-        }
+            self.title: {
+                "author": self.author,
+                "price": self.price,
+                "stock": self.stock
+                }
+            }
 
         # In memory storage
-        self.In_memory.update(**self.json)
+        self.In_memory.append(**self.json)
