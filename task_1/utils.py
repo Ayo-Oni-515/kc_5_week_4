@@ -91,8 +91,40 @@ greater 100 entered!\n")
     print()
 
 
-def view_students() -> str:
-    print(Student.In_memory)
+def view_students() -> None:
+    output: str = """
+------------------------------------------------------
+===================== STUDENTS =======================
+------------------------------------------------------
+"""
+
+    json_data = load_from_json()
+    Student.In_memory.update(**json_data)
+
+    all_data = Student.In_memory
+
+    for name in all_data:
+        student_name: str = name
+        average: float = all_data[name]["average"]
+        grade: str = all_data[name]["grade"]
+        
+        subjects: str = ""
+        for subject, score in (all_data[name]["subjects"]).items():
+            subject_info: str = f"\t{subject.title()}: {score}\n"
+            subjects += subject_info
+        
+        output += f"""
+-----------------------------------------------------
+{student_name.title()}'s data
+Average: {average}
+Remark: {grade}
+
+Subjects:\n{subjects}
+-----------------------------------------------------
+"""
+        
+    print(output)
+
 
 
 def update_student():
