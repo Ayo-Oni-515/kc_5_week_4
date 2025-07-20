@@ -12,6 +12,12 @@ Features
     * Add Student class and JSON save feature
     * Fix average score calculation
 
+To run:
+
+    cd task_1
+    python main.py
+
+
 ## Task 2: Bookstore Inventory System (Using Git Branches)
 ### Goal: Build an app to manage books in a store.
 
@@ -23,3 +29,24 @@ Features:
 - Use Git: Create and merge feature branches
     * git checkout -b feature-search
     * git merge feature-search
+
+To run:
+
+    cd task_2
+    python main.py
+
+
+## Task 4: File Organizer Tool (Real-Use Python Script)
+### Goal: Automatically organize files into folders based on type.
+
+Features:
+- Use os and shutil modules
+- Organize: .jpg/.png -> Images, .docx/.pdf -> Documents
+- Get folder path from user input
+- Handle errors using try-except
+- Track changes using Git and meaningful commits
+
+To run:
+
+    cd task_4
+    python main.py '<directory-path>'
